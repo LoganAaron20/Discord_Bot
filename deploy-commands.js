@@ -12,7 +12,7 @@ const commandFiles = fs
 // Grabs the SlashCommandBuilder#toJSON() ouput of each command's data for deployment:
 for (const file of commandFiles) {
   const command = require(`./commands/${file}`);
-  commands.push(command.data.toJSON());
+  commands.push(command.data);
 }
 
 // Construct and prepare and instance of the REST module:
@@ -26,7 +26,7 @@ const rest = new REST({ version: "10" }).setToken(process.env.BOT_TOKEN);
     );
 
     // The put method is used to fully refresh all commmands in the guild with the current set;
-    const data = await rest.put(
+    const data = await rest.post(
       Routes.applicationGuildCommands(
         process.env.CLIENT_ID,
         process.env.GUILD_ID
